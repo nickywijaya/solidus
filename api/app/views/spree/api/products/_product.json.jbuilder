@@ -8,15 +8,6 @@ json.cache! [I18n.locale, @current_user_roles.include?('admin'), current_pricing
   json.display_price(product.price_for_options(current_pricing_options)&.money&.to_s)
 
   @exclude_data ||= {}
-  unless @exclude_data[:variants]
-    json.has_variants(product.has_variants?)
-    json.master do
-      json.partial!("spree/api/variants/small", variant: product.master)
-    end
-    json.variants(product.variants) do |variant|
-      json.partial!("spree/api/variants/small", variant: variant)
-    end
-  end
   unless @exclude_data[:option_types]
     json.option_types(product.option_types) do |option_type|
       json.(option_type, *option_type_attributes)
